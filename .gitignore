@@ -8,6 +8,10 @@ jspm_packages/
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
+
+backend/.env
+frontend/.env
+.env
 # TypeScript cache
 *.tsbuildinfo
 
@@ -16,3 +20,6 @@ web_modules/
 
 # Optional eslint cache
 .eslintcache
+backend/ai-test-sample.js
+backend/ZAP-FullScanLog.txt
+backend/dummy_response.json

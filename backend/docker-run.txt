@@ -1,0 +1,4 @@
+docker run -u zap -p 8080:8080 -d --name zap-daemon ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=false -config api.key=changeme -config api.addrs.addr(0).name=.* -config api.addrs.addr(0).regex=true
+
+
+docker run -u zap -p 8080:8080 -d --name zap-daemon ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=false -config api.key=changeme -config api.addrs.addr(0).name=.* -config api.addrs.addr(0).regex=true -config pscan.disableIds=10104,10021,10036 -config ascan.disabledPlugins=10104,10021,10036
