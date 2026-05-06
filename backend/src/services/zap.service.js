@@ -23,19 +23,52 @@ const API_KEY = process.env.ZAP_API_KEY;
 
 /**
  * Configures the ZAP scan policy based on the requested scan type.
+ * For 'advanced' scans, enables only the user-selected plugins.
+ *
+ * @param {string} scanType - 'quick', 'full', or 'advanced'
+ * @param {Object} [advancedConfig] - Only used when scanType is 'advanced'
+ * @param {string[]} [advancedConfig.activePlugins]  - Active scan plugin IDs to enable
+ * @param {string[]} [advancedConfig.passivePlugins] - Passive scan plugin IDs to enable
  */
-export const setScanPolicy = async (scanType) => {
+export const setScanPolicy = async (scanType, advancedConfig = null) => {
   try {
     if (scanType === 'quick') {
       console.log(`⚙️ [ZAP] Configuring QUICK scan policy...`);
       // Active Scanners
       await axios.get(`${ZAP}/JSON/ascan/action/disableAllScanners/`, { params: { apikey: API_KEY } });
-      await axios.get(`${ZAP}/JSON/ascan/action/enableScanners/`, { params: { apikey: API_KEY, ids: '6,7,40012,40014,40018,90021,90020,90019' } });
+      await axios.get(`${ZAP}/JSON/ascan/action/enableScanners/`, { params: { apikey: API_KEY, ids: '6,7,40012,40014,40018,90020' } });
       
       // Passive Scanners
       await axios.get(`${ZAP}/JSON/pscan/action/disableAllScanners/`, { params: { apikey: API_KEY } });
       await axios.get(`${ZAP}/JSON/pscan/action/enableScanners/`, { params: { apikey: API_KEY, ids: '10038,10098,10202' } });
       console.log(`✅ [ZAP] Quick scan policy applied.`);
+
+    } else if (scanType === 'advanced' && advancedConfig) {
+      console.log(`⚙️ [ZAP] Configuring ADVANCED scan policy...`);
+
+      const activeIds  = advancedConfig.activePlugins  || [];
+      const passiveIds = advancedConfig.passivePlugins || [];
+
+      // Disable all first
+      await axios.get(`${ZAP}/JSON/ascan/action/disableAllScanners/`, { params: { apikey: API_KEY } });
+      await axios.get(`${ZAP}/JSON/pscan/action/disableAllScanners/`, { params: { apikey: API_KEY } });
+
+      // Enable only user-selected active plugins
+      if (activeIds.length > 0) {
+        const activeIdsStr = activeIds.join(',');
+        await axios.get(`${ZAP}/JSON/ascan/action/enableScanners/`, { params: { apikey: API_KEY, ids: activeIdsStr } });
+        console.log(`✅ [ZAP] Enabled ${activeIds.length} active plugin(s): ${activeIdsStr}`);
+      }
+
+      // Enable only user-selected passive plugins
+      if (passiveIds.length > 0) {
+        const passiveIdsStr = passiveIds.join(',');
+        await axios.get(`${ZAP}/JSON/pscan/action/enableScanners/`, { params: { apikey: API_KEY, ids: passiveIdsStr } });
+        console.log(`✅ [ZAP] Enabled ${passiveIds.length} passive plugin(s): ${passiveIdsStr}`);
+      }
+
+      console.log(`✅ [ZAP] Advanced scan policy applied.`);
+
     } else {
       console.log(`⚙️ [ZAP] Configuring FULL scan policy...`);
       // 1. Enable all default scanners first

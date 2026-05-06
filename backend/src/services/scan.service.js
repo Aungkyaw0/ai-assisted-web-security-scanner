@@ -48,7 +48,8 @@ export const runScanPipeline = async (scanId, targetUrl) => {
     await Scan.findByIdAndUpdate(scanId, { status: 'SPIDERING' });
 
     // Set ZAP Policy before starting any scans
-    await setScanPolicy(scan.scanType);
+    // For advanced scans, pass the user-selected plugin configuration
+    await setScanPolicy(scan.scanType, scan.advancedConfig || null);
 
     const spiderScanId = await startSpider(targetUrl);
 

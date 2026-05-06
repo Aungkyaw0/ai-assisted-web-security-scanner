@@ -27,7 +27,7 @@ import { generateInstanceInsights } from '../services/ai.service.js';
  * Returns immediately with the scan ID — the client polls for progress.
  */
 export const startScan = async (req, res) => {
-  const { url, scanType = 'full' } = req.body;
+  const { url, scanType = 'full', advancedConfig } = req.body;
 
   // ── Input validation ──────────────────────────────────────────────────
   if (!url) {
@@ -42,10 +42,26 @@ export const startScan = async (req, res) => {
     return res.status(400).json({ error: 'Invalid URL format' });
   }
 
-  console.log(`📝 [CTRL] New scan request — Target: ${url}`);
+  // Validate advanced config if scan type is advanced
+  if (scanType === 'advanced') {
+    const activePlugins  = advancedConfig?.activePlugins  || [];
+    const passivePlugins = advancedConfig?.passivePlugins || [];
+    if (activePlugins.length === 0 && passivePlugins.length === 0) {
+      return res.status(400).json({ error: 'Advanced scan requires at least one plugin selected' });
+    }
+  }
+
+  console.log(`📝 [CTRL] New scan request — Target: ${url}, Type: ${scanType}`);
 
   // ── Create scan document in MongoDB ───────────────────────────────────
-  const scan = await Scan.create({ targetUrl: url, scanType });
+  const scanData = { targetUrl: url, scanType };
+  if (scanType === 'advanced' && advancedConfig) {
+    scanData.advancedConfig = {
+      activePlugins:  advancedConfig.activePlugins  || [],
+      passivePlugins: advancedConfig.passivePlugins || []
+    };
+  }
+  const scan = await Scan.create(scanData);
 
   // Fire-and-forget — pipeline runs in the background
   runScanPipeline(scan._id.toString(), url);

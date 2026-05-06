@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   HelpCircle, Search, BarChart3, Brain, Shield,
   MousePointerClick, ArrowRight, ChevronDown, ChevronUp,
-  Monitor, Globe, ListChecks, Sparkles, Lock
+  Monitor, Globe, ListChecks, Sparkles, Lock, Settings2
 } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ const steps = [
   {
     icon: <Globe className="w-6 h-6" />,
     title: "1. Start a Scan",
-    description: "Go to the Scanner page, enter a target URL, choose Quick or Full scan mode, and click \"Start Scan\". The scanner will begin analysing the website for vulnerabilities.",
+    description: "Go to the Scanner page, enter a target URL, choose Quick, Full, or Advanced scan mode, and click \"Start Scan\". The scanner will begin analysing the website for vulnerabilities.",
     color: "blue"
   },
   {
@@ -53,8 +53,8 @@ const steps = [
 
 const faqs = [
   {
-    q: "What is a Quick Scan vs Full Scan?",
-    a: "A Quick Scan runs a smaller set of high-priority checks and finishes faster. A Full Scan runs all available vulnerability tests and takes longer, but is more thorough."
+    q: "What is a Quick Scan vs Full Scan vs Advanced Scan?",
+    a: "A Quick Scan runs a smaller set of high-priority checks and finishes faster. A Full Scan runs all available vulnerability tests and takes longer, but is more thorough. An Advanced Scan lets you hand-pick exactly which active and passive plugins to run, giving you full control over the scan scope."
   },
   {
     q: "What does the AI analysis do?",
@@ -171,7 +171,7 @@ export default function HelpPage() {
           <Search className="w-5 h-5 text-violet-400" />
           Scan Modes
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="glass-card rounded-xl p-5">
             <h3 className="text-sm font-semibold text-blue-400 mb-2">⚡ Quick Scan</h3>
             <ul className="text-sm text-slate-400 space-y-1.5">
@@ -186,6 +186,14 @@ export default function HelpPage() {
               <li>• Runs all available vulnerability tests</li>
               <li>• Takes longer (10–30+ minutes)</li>
               <li>• More comprehensive results</li>
+            </ul>
+          </div>
+          <div className="glass-card rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-amber-400 mb-2">⚙️ Advanced Scan</h3>
+            <ul className="text-sm text-slate-400 space-y-1.5">
+              <li>• Hand-pick active &amp; passive plugins</li>
+              <li>• Full control over scan scope</li>
+              <li>• Best for targeted testing</li>
             </ul>
           </div>
         </div>

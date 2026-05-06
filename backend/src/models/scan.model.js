@@ -64,8 +64,12 @@ const scanSchema = new mongoose.Schema({
   },
   scanType: {
     type: String,
-    enum: ['quick', 'full'],
+    enum: ['quick', 'full', 'advanced'],
     default: 'full'
+  },
+  advancedConfig: {
+    activePlugins:  { type: [String], default: [] },
+    passivePlugins: { type: [String], default: [] }
   },
   status: {
     type: String,
