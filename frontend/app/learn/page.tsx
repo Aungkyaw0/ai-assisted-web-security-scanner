@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen, Search, ChevronDown, Shield,
+  BookOpen, Search, ChevronDown, 
   AlertTriangle, Database, Code, Globe,
   FileWarning, KeyRound, Eye, Server
 } from "lucide-react";
@@ -467,7 +467,7 @@ export default function LearnPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-10"
       >
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 mb-5">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-brown from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 mb-5">
           <BookOpen className="w-7 h-7 text-emerald-400" />
         </div>
         <h1 className="text-3xl font-bold text-white mb-3">Vulnerability Knowledge Base</h1>

@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Loader2, ShieldAlert, AlertTriangle, Info,
   Server, Code, FileText, Database, Sparkles, Brain,
-  BookOpen, Shield, Target, Wrench, GraduationCap, CheckCircle2,
-  ChevronDown, ChevronUp
+  Shield, Target, Wrench, GraduationCap, CheckCircle2,
+  ChevronDown
 } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -126,7 +126,7 @@ function AiInsightsSection({ analysis }: { analysis: AiAnalysis }) {
       {/* AI Section Header — clickable to toggle expand/collapse */}
       <div
         onClick={() => setIsExpanded(prev => !prev)}
-        className="px-6 py-4 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-cyan-500/10 border-b border-slate-800/60 cursor-pointer select-none hover:from-purple-500/15 hover:via-blue-500/15 hover:to-cyan-500/15 transition-colors"
+        className="px-6 py-4 bg-gradient-to-red from-purple-500/10 via-blue-500/10 to-cyan-500/10 border-b border-slate-800/60 cursor-pointer select-none hover:from-purple-500/15 hover:via-blue-500/15 hover:to-cyan-500/15 transition-colors"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -374,7 +374,7 @@ export default function InstanceDetailPage() {
                       transition-all duration-300 whitespace-nowrap
                       ${aiLoadingMap[instance.alertIndex]
                         ? 'bg-purple-500/10 text-purple-300 border border-purple-500/20 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-500 hover:to-blue-500 hover:shadow-lg hover:shadow-purple-500/25 active:scale-95'
+                        : 'bg-gradient-to-red from-purple-600 to-blue-600 text-white hover:from-purple-500 hover:to-blue-500 hover:shadow-lg hover:shadow-purple-500/25 active:scale-95'
                       }
                     `}
                   >

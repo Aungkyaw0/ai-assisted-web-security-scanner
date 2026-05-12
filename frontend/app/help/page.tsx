@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  HelpCircle, Search, BarChart3, Brain, Shield,
-  MousePointerClick, ArrowRight, ChevronDown, ChevronUp,
-  Monitor, Globe, ListChecks, Sparkles, Lock, Settings2
+  HelpCircle, Search, BarChart3, Shield,
+  MousePointerClick, ArrowRight, ChevronDown,
+  Monitor, Globe, ListChecks, Sparkles
 } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -131,7 +131,7 @@ export default function HelpPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-14"
       >
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-violet-500/20 border border-blue-500/30 mb-5">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-brown from-blue-500/20 to-violet-500/20 border border-blue-500/30 mb-5">
           <HelpCircle className="w-7 h-7 text-blue-400" />
         </div>
         <h1 className="text-3xl font-bold text-white mb-3">User Guide</h1>
@@ -153,7 +153,7 @@ export default function HelpPage() {
               initial={{ opacity: 0, x: -15 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.08 }}
-              className={`flex items-start gap-4 p-5 rounded-xl border bg-gradient-to-r ${colorMap[step.color]}`}
+              className={`flex items-start gap-4 p-5 rounded-xl border bg-gradient-to-red ${colorMap[step.color]}`}
             >
               <div className="shrink-0 mt-0.5">{step.icon}</div>
               <div>

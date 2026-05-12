@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, ArrowRight, Loader2, Lock, Zap, Search, Settings2, ChevronDown, Check, X } from "lucide-react";
+import { Shield, ArrowRight, Loader2, Lock, Zap, Search, Settings2, Check } from "lucide-react";
 
 // ── Plugin data (from ZAP API) ──────────────────────────────────────────────
 
@@ -235,7 +235,7 @@ export default function Home() {
 
         <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
           Secure Your Web Apps <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-500">Intelligently</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-red from-blue-400 to-violet-500">Intelligently</span>
         </h1>
 
         <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
@@ -256,7 +256,7 @@ export default function Home() {
                 disabled={isLoading} />
             </div>
             <button type="submit" disabled={isLoading || !url}
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white px-8 py-4 rounded-xl font-semibold transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-lg shadow-blue-900/20">
+              className="flex items-center justify-center gap-2 bg-gradient-to-red from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white px-8 py-4 rounded-xl font-semibold transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-lg shadow-blue-900/20">
               {isLoading ? (<><Loader2 className="w-5 h-5 animate-spin" /><span>Starting...</span></>) : (<><Shield className="w-5 h-5" /><span>Scan Target</span><ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>)}
             </button>
           </form>
