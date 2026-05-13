@@ -19,6 +19,6 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB first, then start the server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 [SERVER] Running on http://localhost:${PORT}`);
+    console.log(`The server is Running on http://localhost:${PORT}`);
   });
 });

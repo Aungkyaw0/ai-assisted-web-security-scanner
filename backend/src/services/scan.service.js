@@ -43,16 +43,12 @@ export const runScanPipeline = async (scanId, targetUrl) => {
     // ── Step 1: Spider the target ───────────────────────────────────────
     const scan = await Scan.findById(scanId);
     if (!scan) throw new Error('Scan not found in DB');
-
-    console.log(`🚀 [PIPELINE] Starting scan pipeline — ID: ${scanId}, Target: ${targetUrl}, Type: ${scan.scanType}`);
+    console.log(` [PIPELINE] Starting scan pipeline — ID: ${scanId}, Target: ${targetUrl}, Type: ${scan.scanType}`);
     await Scan.findByIdAndUpdate(scanId, { status: 'SPIDERING' });
-
     // Set ZAP Policy before starting any scans
     // For advanced scans, pass the user-selected plugin configuration
     await setScanPolicy(scan.scanType, scan.advancedConfig || null);
-
     const spiderScanId = await startSpider(targetUrl);
-
     // Poll spider progress until it finishes crawling
     let spiderProgress = 0;
     while (spiderProgress < 100) {
@@ -60,7 +56,6 @@ export const runScanPipeline = async (scanId, targetUrl) => {
       console.log(`🕷️ [PIPELINE] Scan ${scanId} spider progress: ${spiderProgress}%`);
       await delay(2000);
     }
-
     console.log(`✅ [PIPELINE] Scan ${scanId}: spider completed — scan tree populated`);
 
     // ── Step 2: Start ZAP active scan ───────────────────────────────────

@@ -14,13 +14,7 @@
  * Model:    llama-3.3-70b-versatile
  */
 
-import OpenAI from 'openai';
 
-// Groq uses an OpenAI-compatible API, so we reuse the openai client
-const client = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: 'https://api.groq.com/openai/v1'
-});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // System prompt — carefully crafted for educational, non-exploitative output
@@ -111,9 +105,15 @@ IMPORTANT: Return ONLY the JSON object above. No markdown fences, no extra text.
  * @param {Object} instanceData - Single alert instance from the scan
  * @returns {Object|null} Parsed AI analysis object, or null if generation failed
  */
-export const generateInstanceInsights = async (instanceData) => {
-  console.log(`🤖 [AI] Generating insights for: "${instanceData.name}" at ${instanceData.url}`);
+import OpenAI from 'openai';
 
+// Groq uses an OpenAI-compatible API, so we reuse the openai client
+const client = new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: 'https://api.groq.com/openai/v1'
+});
+export const generateInstanceInsights = async (instanceData) => {
+  console.log(` [AI] Generating insights for: "${instanceData.name}" at ${instanceData.url}`);
   try {
     const completion = await client.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
@@ -124,15 +124,11 @@ export const generateInstanceInsights = async (instanceData) => {
         { role: 'user',   content: buildUserPrompt(instanceData) }
       ]
     });
-
     const rawContent = completion.choices[0].message.content;
-
     // Attempt to parse the JSON response
     try {
       const parsed = JSON.parse(rawContent);
-
-      console.log(`✅ [AI] Insights generated successfully for: "${instanceData.name}"`);
-
+      console.log(` [AI] Insights generated successfully for: "${instanceData.name}"`);
       // Validate that all expected fields exist, fill missing ones with fallback
       return {
         vulnerabilityOverview:           parsed.vulnerabilityOverview           || 'Analysis not available for this field.',
@@ -146,7 +142,7 @@ export const generateInstanceInsights = async (instanceData) => {
       };
     } catch (parseErr) {
       // Model returned non-JSON — log it and return null
-      console.warn(`⚠️ [AI] Model returned non-JSON response. Raw output:`);
+      console.warn(` [AI] Model returned non-JSON response. Raw output:`);
       console.warn(rawContent);
       return null;
     }

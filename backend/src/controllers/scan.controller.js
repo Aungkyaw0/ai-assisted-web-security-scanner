@@ -35,11 +35,23 @@ export const startScan = async (req, res) => {
     return res.status(400).json({ error: 'URL is required' });
   }
 
+  let parsedUrl;
   try {
-    new URL(url);  // Throws if invalid
+    parsedUrl = new URL(url);  // Throws if invalid
   } catch {
     console.warn(`⚠️ [CTRL] Scan request rejected — invalid URL: ${url}`);
     return res.status(400).json({ error: 'Invalid URL format' });
+  }
+
+  // Reject hostnames that don't look like real addresses
+  // e.g. "https://abc" passes new URL() but isn't a scannable target
+  const host = parsedUrl.hostname;
+  const isLocalhost = host === 'localhost';
+  const isIP = /^\d{1,3}(\.\d{1,3}){3}$/.test(host) || host === '[::1]';
+  const hasDot = host.includes('.');
+  if (!isLocalhost && !isIP && !hasDot) {
+    console.warn(`⚠️ [CTRL] Scan request rejected — invalid hostname: ${host}`);
+    return res.status(400).json({ error: 'Invalid URL — please provide a valid domain (e.g., http://example.com)' });
   }
 
   // Validate advanced config if scan type is advanced

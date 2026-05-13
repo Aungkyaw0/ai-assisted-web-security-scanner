@@ -173,10 +173,23 @@ export default function Home() {
     e.preventDefault();
     if (!url) return;
 
+    // Validate URL format
+    let parsedUrl: URL;
     try {
-      new URL(url.startsWith("http") ? url : `https://${url}`);
+      parsedUrl = new URL(url.startsWith("http") ? url : `https://${url}`);
     } catch {
       setError("Please enter a valid URL (e.g., http://example.com)");
+      return;
+    }
+
+    // Reject hostnames that don't look like real addresses
+    // e.g. "abc" becomes "https://abc" which passes new URL() but isn't a real target
+    const host = parsedUrl.hostname;
+    const isLocalhost = host === "localhost";
+    const isIP = /^\d{1,3}(\.\d{1,3}){3}$/.test(host) || host === "[::1]";
+    const hasDot = host.includes(".");
+    if (!isLocalhost && !isIP && !hasDot) {
+      setError("Please enter a valid URL with a proper domain (e.g., http://example.com)");
       return;
     }
 
